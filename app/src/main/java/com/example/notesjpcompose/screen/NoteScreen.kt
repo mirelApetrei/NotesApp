@@ -11,6 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -19,11 +23,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.notesjpcompose.R
+import com.example.notesjpcompose.components.NoteButton
 import com.example.notesjpcompose.components.NoteInputText
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun NoteScreen() {
+    // Variables
+    var title by remember {
+        mutableStateOf("")
+    }
+    var description by remember {
+        mutableStateOf("")
+    }
+
+
     Column(modifier = Modifier.padding(6.dp)) {
         TopAppBar(title = {
             Text(text = stringResource(id = R.string.app_name))
@@ -38,7 +52,21 @@ fun NoteScreen() {
         // Content
         Column(modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            NoteInputText(text = "Hello", label = "hello", maxLine = 1, onTextChange = {})
+            NoteInputText(
+                text = title,
+                label = "Title",
+                maxLine = 1,
+                onTextChange = {},
+                modifier = Modifier.padding(4.dp))
+
+            NoteInputText(
+                text = description,
+                label = "Add a note",
+                maxLine = 1,
+                onTextChange = {},
+                modifier = Modifier.padding(8.dp))
+
+            NoteButton(text = "Save", onClick = { /*TODO*/ })
         }
 
     }
