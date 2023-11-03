@@ -1,5 +1,6 @@
 package com.example.notesjpcompose.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,11 +25,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,7 +39,7 @@ import com.example.notesjpcompose.data.NotesDataSource
 import com.example.notesjpcompose.model.Note
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
     notes: List<Note>,
@@ -53,6 +53,7 @@ fun NoteScreen(
     var description by remember {
         mutableStateOf("")
     }
+    val context = LocalContext.current
 
 
     Column(modifier = Modifier.padding(6.dp)) {
@@ -95,7 +96,13 @@ fun NoteScreen(
                 onClick = {
                     if (title.isNotEmpty() && description.isNotEmpty()) {
                         // save/ add to a list
-
+                        onAddNote(
+                            Note(
+                                title = title,
+                                description = description
+                            )
+                        )
+                        Toast.makeText(context, "Note added", Toast.LENGTH_SHORT).show()
                         title = ""
                         description = ""
                     }
@@ -105,7 +112,9 @@ fun NoteScreen(
 
         LazyColumn {
             items(notes) { note ->
-                NoteRow(note = note, onNoteClicked = {})
+                NoteRow(note = note, onNoteClicked = {
+                    onRemoveNote(note)
+                })
             }
         }
     }

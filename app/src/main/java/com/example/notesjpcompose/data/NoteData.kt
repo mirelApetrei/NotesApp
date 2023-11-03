@@ -4,6 +4,7 @@ import com.example.notesjpcompose.model.Note
 
 class NotesDataSource {
     fun loadNotes(): List<Note> {
+        println("loadNotes() called")
         return listOf(
             Note(
                 title = "A good day",
@@ -60,7 +61,6 @@ class NotesDataSource {
             Note(
                 title = "Note 14",
                 description = "Description 14"
-            )
-        )
+            ))
     }
 }
